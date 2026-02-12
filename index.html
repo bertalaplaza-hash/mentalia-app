@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MENTALIA 💛</title>
+
+<style>
+body{
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#ffdde1,#c2e9fb);
+  text-align:center;
+}
+
+h1{
+  margin-top:20px;
+}
+
+.container{
+  padding:20px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+  margin:15px auto;
+  max-width:400px;
+}
+
+button{
+  padding:10px 15px;
+  border:none;
+  border-radius:15px;
+  margin:5px;
+  cursor:pointer;
+  font-size:16px;
+  background:#6c63ff;
+  color:white;
+}
+
+button:hover{
+  opacity:0.8;
+}
+
+.emoji-btn{
+  font-size:30px;
+  background:white;
+  border:2px solid #ddd;
+}
+
+textarea{
+  width:90%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+input{
+  padding:8px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<h1>MENTALIA 💛</h1>
+
+<div class="container">
+
+<!-- Estado de ánimo -->
+<div class="card">
+<h3>¿Cómo te sientes hoy?</h3>
+<button class="emoji-btn" onclick="estado('feliz')">😄</button>
+<button class="emoji-btn" onclick="estado('normal')">🙂</button>
+<button class="emoji-btn" onclick="estado('estres')">😣</button>
+<button class="emoji-btn" onclick="estado('triste')">😢</button>
+<p id="respuestaEstado"></p>
+</div>
+
+<!-- Chat emocional -->
+<div class="card">
+<h3>¿Qué te pasa?</h3>
+<textarea id="problema" placeholder="Escribe aquí..."></textarea><br><br>
+<button onclick="responder()">Hablar 💬</button>
+<p id="respuestaIA"></p>
+<button onclick="mostrarNormal()" id="btnNormal" style="display:none;">Esto es normal 💛</button>
+<p id="pasos"></p>
+</div>
+
+<!-- Juego respiración -->
+<div class="card">
+<h3>Mini Juego: Respira 🌬</h3>
+<p id="respiraTexto">Pulsa empezar</p>
+<button onclick="respirar()">Empezar</button>
+</div>
+
+<!-- Reto diario -->
+<div class="card">
+<h3>Reto del día ⭐</h3>
+<p id="reto"></p>
+<button onclick="nuevoReto()">Nuevo reto</button>
+</div>
+
+<!-- Contacto confianza -->
+<div class="card">
+<h3>Persona de confianza 📞</h3>
+<input id="contacto" placeholder="Guarda un número"><br><br>
+<button onclick="guardarContacto()">Guardar</button>
+<p id="contactoGuardado"></p>
+</div>
+
+<!-- Carta futuro -->
+<div class="card">
+<h3>Mensaje para tu yo futuro ✉</h3>
+<textarea id="carta"></textarea><br><br>
+<button onclick="guardarCarta()">Guardar carta</button>
+<p id="mensajeCarta"></p>
+</div>
+
+</div>
+
+<script>
+
+// Usamos sessionStorage para que no se compartan datos
+
+function guardar(clave,valor){
+  sessionStorage.setItem(clave,JSON.stringify(valor));
+}
+
+function obtener(clave){
+  return JSON.parse(sessionStorage.getItem(clave));
+}
+
+// Estado ánimo
+function estado(tipo){
+  let mensaje="";
+  if(tipo==="feliz") mensaje="Me encanta verte así 😄 ¡Sigue disfrutando!";
+  if(tipo==="normal") mensaje="Estar normal también está bien 🙂";
+  if(tipo==="estres") mensaje="Respira, no tienes que poder con todo 😣";
+  if(tipo==="triste") mensaje="Lo siento mucho 😢 estoy aquí contigo.";
+  document.getElementById("respuestaEstado").innerText=mensaje;
+}
+
+// Chat emocional simple inteligente
+function responder(){
+  let texto=document.getElementById("problema").value.toLowerCase();
+  let respuesta="Gracias por confiar en mí 💛 ";
+
+  if(texto.includes("examen")||texto.includes("estudio")){
+    respuesta+="Los exámenes generan mucha presión. Recuerda que una nota no define quién eres.";
+  }
+  else if(texto.includes("familia")){
+    respuesta+="Los problemas familiares duelen mucho. No estás exagerando lo que sientes.";
+  }
+  else if(texto.includes("ruptura")||texto.includes("novio")){
+    respuesta+="Las rupturas duelen, y es normal sentir vacío o tristeza.";
+  }
+  else{
+    respuesta+="Lo que estás sintiendo importa, aunque ahora parezca pequeño.";
+  }
+
+  document.getElementById("respuestaIA").innerText=respuesta;
+  document.getElementById("btnNormal").style.display="inline-block";
+}
+
+function mostrarNormal(){
+  document.getElementById("pasos").innerText=
+  "1️⃣ Respira 4 segundos\n2️⃣ Mantén 4\n3️⃣ Suelta 6\n\n4️⃣ Escribe lo que sientes\n5️⃣ Muévete 5 minutos\n6️⃣ Si puedes, habla con alguien 💛";
+}
+
+// Juego respiración
+function respirar(){
+  let texto=document.getElementById("respiraTexto");
+  texto.innerText="Inhala... 4";
+  setTimeout(()=>texto.innerText="Mantén... 4",4000);
+  setTimeout(()=>texto.innerText="Exhala... 6",8000);
+  setTimeout(()=>texto.innerText="✨ Bien hecho ✨",14000);
+}
+
+// Retos
+const retos=[
+"Escribe 3 cosas buenas de hoy",
+"Camina 10 minutos",
+"Manda un mensaje bonito a alguien",
+"Bebe más agua hoy",
+"Escucha tu canción favorita"
+];
+
+function nuevoReto(){
+  let r=retos[Math.floor(Math.random()*retos.length)];
+  document.getElementById("reto").innerText=r;
+}
+
+// Contacto
+function guardarContacto(){
+  let numero=document.getElementById("contacto").value;
+  guardar("contacto",numero);
+  document.getElementById("contactoGuardado").innerText="Guardado 💛";
+}
+
+// Carta
+function guardarCarta(){
+  let carta=document.getElementById("carta").value;
+  guardar("carta",carta);
+  document.getElementById("mensajeCarta").innerText="Tu yo futuro estará orgulloso de ti ✨";
+}
+
+</script>
+
+</body>
+
+</html>
